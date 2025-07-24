@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Home, Edit, Settings, LogOut, Award } from "lucide-react"
-import { clearAuthSession } from "@/lib/auth"
-import { ThemeToggle } from "./theme-toggle"
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Home, Edit, Settings, LogOut, Award } from "lucide-react";
+import { clearAuthSession } from "@/lib/auth";
+import { ThemeToggle } from "./theme-toggle";
 
 export default function AdminSidebar() {
-  const router = useRouter()
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
-    clearAuthSession()
-    router.push("/admin/login")
-  }
+    clearAuthSession();
+    router.push("/admin/login");
+  };
 
   const menuItems = [
     { href: "/admin", icon: Home, label: "Dashboard", exact: true },
     { href: "/admin/edit", icon: Edit, label: "Chỉnh sửa địa phương" },
     { href: "/admin/settings", icon: Settings, label: "Cài đặt" },
-  ]
+  ];
 
   return (
     <div className="w-64 bg-gray-900 dark:bg-gray-950 text-white min-h-screen flex flex-col border-r border-gray-800 dark:border-gray-700">
@@ -42,7 +43,9 @@ export default function AdminSidebar() {
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
           {menuItems.map((item) => {
-            const isActive = item.exact ? router.pathname === item.href : router.pathname.startsWith(item.href)
+            const isActive = item.exact
+              ? pathname === item.href
+              : pathname.startsWith(item.href);
 
             return (
               <li key={item.href}>
@@ -58,7 +61,7 @@ export default function AdminSidebar() {
                   <span className="text-sm font-medium">{item.label}</span>
                 </Link>
               </li>
-            )
+            );
           })}
         </ul>
       </nav>
@@ -74,5 +77,5 @@ export default function AdminSidebar() {
         </button>
       </div>
     </div>
-  )
+  );
 }
